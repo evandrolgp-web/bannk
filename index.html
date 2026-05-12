@@ -1,33 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<style>
-  :root {
-    --safe-top: env(safe-area-inset-top);
-    --safe-bottom: env(safe-area-inset-bottom);
-  }
-  body { 
-    margin: 0; 
-    padding: 0; 
-    background: #0a0a0a; 
-    height: 100vh; 
-    width: 100vw; 
-    overflow: hidden;
-  }
-  .iphone-container {
-    width: 414px; /* Largura iPhone 11 Pro Max */
-    height: 896px; /* Altura iPhone 11 Pro Max */
-    margin: auto;
-    position: relative;
-    background: #0a0a0a;
-    display: flex;
-    flex-direction: column;
-  }
-  /* Garante que o conteúdo não fique sob o notch ou indicador de home */
-  .sa-top { padding-top: var(--safe-top); }
-  .sa-bottom { padding-bottom: var(--safe-bottom); }
-</style>
-
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
   <meta name="mobile-web-app-capable" content="yes"/>
@@ -174,11 +147,10 @@ function Receipt({tx,onClose}){
       </div>
       <div className="sa" style={{flex:1,background:"#f5f5f5"}}>
         <div style={{background:"#fff",padding:"24px 20px 40px",minHeight:"100%"}}>
-          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:28}}>
-            <img src={LOGO} alt="C6" style={{width:36,height:36,borderRadius:8}}/>
+          <div style={{textAlign:"center",marginBottom:28}}>
             <div style={{display:"inline-flex",alignItems:"baseline"}}>
-              <span style={{color:"#111",fontSize:22,fontWeight:900,fontFamily:"Georgia,serif",letterSpacing:-1}}>C6</span>
-              <span style={{color:"#111",fontSize:15,fontWeight:300,fontFamily:"Georgia,serif",letterSpacing:3,marginLeft:2}}>BANK</span>
+              <span style={{color:"#111",fontSize:28,fontWeight:900,fontFamily:"Georgia,serif",letterSpacing:-1}}>C6</span>
+              <span style={{color:"#111",fontSize:18,fontWeight:300,fontFamily:"Georgia,serif",letterSpacing:3,marginLeft:3}}>BANK</span>
             </div>
           </div>
           <div style={{display:"flex",alignItems:"flex-start",marginBottom:28}}>
@@ -254,7 +226,7 @@ function C6App(){
   const[pixKey,setPixKey]=useState("");
   const[pixAmt,setPixAmt]=useState("");
   const[pixDone,setPixDone]=useState(false);
-  const[invested,setInvested]=useState(32227.20);
+  const[invested,setInvested]=useState(0);
   const[iModal,setIModal]=useState(false);
   const[iVal,setIVal]=useState("");
   const[receipt,setReceipt]=useState(null);
@@ -391,11 +363,12 @@ function C6App(){
             </span>
           </div>
 
-          {/* Numpad — large round buttons like screenshot */}
-          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",rowGap:4,columnGap:0}}>
-            {["1","2","3","4","5","6","7","8","9","0","⌫"].map((d,i)=>(
+          {/* Numpad — large round buttons */}
+          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",rowGap:8,columnGap:6,maxWidth:220,margin:"0 auto"}}>
+            {["1","2","3","4","5","6","7","8","9","0","⌫",""].map((d,i)=>(
               <button key={i}
                 onClick={()=>{
+                  if(d==="")return;
                   if(d==="⌫"){setPin(p=>p.slice(0,-1));return;}
                   tapDigit(d);
                 }}
@@ -404,7 +377,8 @@ function C6App(){
                   padding:"10px 0",
                   display:"flex",flexDirection:"column",
                   alignItems:"center",justifyContent:"center",
-                  cursor:"pointer",
+                  cursor:d===""?"default":"pointer",
+                  opacity:d===""?0:1,
                   fontFamily:"inherit",
                 }}>
                 {d==="⌫"?(
@@ -435,10 +409,111 @@ function C6App(){
     );
   }
 
+  function ProfileScreen(){
+    const[profTab,setProfTab]=useState("perfil");
+    const[switchAccount,setSwitchAccount]=useState(false);
+    return(
+      <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"12px 20px 16px",flexShrink:0}}>
+          <button onClick={()=>go("home")} style={{background:"none",border:"none",padding:4}}><Icon name="chL" size={26} color={C.wh}/></button>
+          <span style={{color:C.wh,fontSize:16,fontWeight:600}}>Meu Perfil</span>
+          <div style={{width:26}}/>
+        </div>
+        {!switchAccount?(
+          <>
+            <div style={{padding:"0 20px 16px",flexShrink:0}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
+                <div>
+                  <p style={{color:C.wh,fontSize:22,fontWeight:800,margin:"0 0 4px 0"}}>EVANDRO</p>
+                  <p style={{color:C.gy,fontSize:13,margin:0}}>CPF: 110.391.846-00</p>
+                </div>
+                <button onClick={()=>setSwitchAccount(true)} style={{background:"none",border:"none",color:C.bl,fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>Trocar conta ∨</button>
+              </div>
+              <div style={{background:C.s1,borderRadius:14,border:`1px solid ${C.bd}`,padding:12}}>
+                <p style={{color:C.gy,fontSize:11,margin:"0 0 4px 0"}}>Conta corrente • 21414479-8</p>
+                <p style={{color:C.gy,fontSize:12,margin:"0 0 4px 0"}}>Banco: 336 • Banco C6 S.A.</p>
+                <p style={{color:C.gy,fontSize:12,margin:"0 0 4px 0"}}>Agência: 0001</p>
+                <p style={{color:C.gy,fontSize:11,margin:0,wordBreak:"break-all"}}>Chave: 10984411-b772-4757-9373-b9a752aada1e</p>
+              </div>
+            </div>
+            <div style={{display:"flex",borderBottom:`1px solid ${C.bd}`,flexShrink:0}}>
+              {["Perfil","Configurações"].map(t=>(
+                <button key={t} onClick={()=>setProfTab(t.toLowerCase())} style={{flex:1,background:"none",border:"none",padding:"14px 0",color:profTab===t.toLowerCase()?C.wh:C.gy,borderBottom:profTab===t.toLowerCase()?`2px solid ${C.yw}`:"none",fontSize:14,fontWeight:600,fontFamily:"inherit",cursor:"pointer"}}>
+                  {t}
+                </button>
+              ))}
+            </div>
+            <div className="sa" style={{flex:1,overflowY:"auto",padding:"16px 20px"}}>
+              {profTab==="perfil"?(
+                <>
+                  <p style={{color:C.wh,fontSize:14,fontWeight:700,marginBottom:12}}>Conta</p>
+                  {[{l:"Meus dados cadastrais",i:"doc"},{l:"Conta Compartilhada",i:"user"},{l:"C6 Empresas: abrir conta PJ",i:"bldg"},{l:"C6 Yellow",i:"share"},{l:"Convidar amigos",i:"user"}].map(it=>(
+                    <div key={it.l} style={{background:C.s1,borderRadius:12,border:`1px solid ${C.bd}`,padding:14,display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                      <div style={{display:"flex",alignItems:"center",gap:12}}>
+                        <Icon name={it.i} size={18} color={C.gy}/>
+                        <span style={{color:C.wh,fontSize:14}}>{it.l}</span>
+                      </div>
+                      <Icon name="chR" size={16} color={C.gd}/>
+                    </div>
+                  ))}
+                  <p style={{color:C.wh,fontSize:14,fontWeight:700,margin:"20px 0 12px"}}>Documentos</p>
+                  {[{l:"Solicitar declaração de dados",i:"doc"},{l:"Informe de rendimentos",i:"doc"}].map(it=>(
+                    <div key={it.l} style={{background:C.s1,borderRadius:12,border:`1px solid ${C.bd}`,padding:14,display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                      <div style={{display:"flex",alignItems:"center",gap:12}}>
+                        <Icon name={it.i} size={18} color={C.gy}/>
+                        <span style={{color:C.wh,fontSize:14}}>{it.l}</span>
+                      </div>
+                      <Icon name="chR" size={16} color={C.gd}/>
+                    </div>
+                  ))}
+                  <p style={{color:C.wh,fontSize:14,fontWeight:700,margin:"20px 0 12px"}}>Ajuda</p>
+                  {[{l:"Chat",i:"chat"},{l:"Ajustes de acessibilidade",i:"info"},{l:"Canais de atendimento",i:"tel"}].map(it=>(
+                    <div key={it.l} style={{background:C.s1,borderRadius:12,border:`1px solid ${C.bd}`,padding:14,display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                      <div style={{display:"flex",alignItems:"center",gap:12}}>
+                        <Icon name={it.i} size={18} color={C.gy}/>
+                        <span style={{color:C.wh,fontSize:14}}>{it.l}</span>
+                      </div>
+                      <Icon name="chR" size={16} color={C.gd}/>
+                    </div>
+                  ))}
+                  <p style={{color:C.rd,fontSize:14,fontWeight:600,textAlign:"center",margin:"24px 0 0"}}>Sair da conta</p>
+                  <p style={{color:C.gy,fontSize:12,textAlign:"center",margin:"8px 0"}}>Versão 2.155.1</p>
+                  <p style={{color:C.bl,fontSize:12,textAlign:"center",cursor:"pointer",margin:0}}>Licenças de código aberto</p>
+                </>
+              ):(
+                <div><p style={{color:C.gy}}>Configurações em breve...</p></div>
+              )}
+            </div>
+          </>
+        ):(
+          <>
+            <div style={{padding:"16px 20px",flexShrink:0}}>
+              <p style={{color:C.wh,fontSize:16,fontWeight:700,marginBottom:16}}>Qual conta você quer acessar?</p>
+              {[{n:"EVANDRO LUCAS GONCALVES DE PINHO",cpf:"110.391.846-00",type:"CPF",badge:"Atual"},{n:"ELGP CONSULTORIA",cnpj:"53.504.013/0001-64",type:"CNPJ",badge:null}].map((acc,idx)=>(
+                <button key={idx} onClick={()=>{if(idx===1)t_("Conta CNPJ acessada!");setSwitchAccount(false);}} style={{background:C.s1,borderRadius:14,border:`1px solid ${C.bd}`,padding:16,width:"100%",marginBottom:12,display:"flex",alignItems:"center",justifyContent:"space-between",fontFamily:"inherit",cursor:"pointer"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:12,flex:1}}>
+                    <div style={{width:40,height:40,borderRadius:20,background:C.s2,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                      <Icon name="user" size={18} color={C.gy}/>
+                    </div>
+                    <div style={{textAlign:"left"}}>
+                      <p style={{color:C.wh,fontSize:14,fontWeight:600,margin:"0 0 4px 0"}}>{acc.n}</p>
+                      <p style={{color:C.gy,fontSize:12,margin:0}}>{acc.type} {acc.cpf||acc.cnpj}</p>
+                    </div>
+                  </div>
+                  {acc.badge&&<button style={{background:C.bl,border:"none",borderRadius:8,padding:"6px 12px",color:C.wh,fontSize:11,fontWeight:600,fontFamily:"inherit"}}>{acc.badge}</button>}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
+
   function HomeScreen(){return(
     <div style={{paddingBottom:8}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"4px 20px 16px"}}>
-        <div style={{display:"flex",alignItems:"center",gap:10}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,cursor:"pointer"}} onClick={()=>go("profile")}>
           <div style={{width:36,height:36,borderRadius:18,background:C.s2,border:`1px solid ${C.bd}`,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="user" size={18} color={C.gy}/></div>
           <span style={{color:C.wh,fontSize:17,fontWeight:600}}>Evandro</span>
         </div>
@@ -802,16 +877,17 @@ function C6App(){
   }
 
   return(
-    <div style={{height:"100%",background:C.bg,fontFamily:"-apple-system,'Helvetica Neue',Arial,sans-serif",display:"flex",flexDirection:"column",overflow:"hidden"}}>
+    <div style={{height:"100vh",background:C.bg,fontFamily:"-apple-system,'Helvetica Neue',Arial,sans-serif",display:"flex",flexDirection:"column",overflow:"hidden",paddingTop:"max(16px, env(safe-area-inset-top))"}}>
       {toast&&(<div style={{position:"fixed",top:16,left:16,right:16,background:C.bl,color:C.wh,borderRadius:14,padding:"12px 18px",fontSize:13,fontWeight:600,zIndex:300,animation:"toastIn .25s ease",textAlign:"center",boxShadow:"0 8px 32px rgba(37,99,235,.4)"}}>{toast}</div>)}
-      <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",position:"relative"}}>
+      <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",position:"relative",paddingBottom:"max(12px, env(safe-area-inset-bottom))"}}>
         {screen==="splash"&&<SplashScreen/>}
         {screen==="account"&&<AccountScreen/>}
+        {screen==="profile"&&<ProfileScreen/>}
         {screen==="pin"&&<PinScreen/>}
         {screen==="home"&&(
           <>
             <div className="sa" style={{flex:1,overflowY:"auto",paddingBottom:extrato?0:80}}>
-              {extrato?<ExtratoScreen/>:nav==="home"?<HomeScreen/>:nav==="cards"?<CardsScreen/>:nav==="invest"?<InvestScreen/>:<MenuScreen/>}
+              {extrato?<ExtratoScreen/>:nav==="home"?<HomeScreen/>:nav==="cards"?<CardsScreen/>:nav==="invest"?<InvestScreen()>:<MenuScreen()>}
             </div>
             {pixOpen&&<PixModal/>}
             {iModal&&<InvestModal/>}
