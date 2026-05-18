@@ -959,6 +959,14 @@ function C6App(){
 
   function go(s){ setScreen(s); }
 
+  function openC6Pix(){
+    const scheme="c6bank://pix";
+    const store="https://apps.apple.com/br/app/c6-bank/id1383281965";
+    const t=Date.now();
+    window.location.href=scheme;
+    setTimeout(()=>{if(Date.now()-t<2000)window.location.href=store;},1500);
+  }
+
   function goBack(){
     if(receipt){setTimeout(()=>{setReceipt(null);},340);return;}
     if(fSheet){setFSheet(false);return;}
@@ -1011,9 +1019,9 @@ function C6App(){
       <div style={{position:"absolute",bottom:0,left:0,right:0,background:"rgba(20,20,20,.97)",borderRadius:"22px 22px 0 0",padding:"20px 24px 42px"}}>
         <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:4}}><span style={{color:C.wh,fontSize:18,fontWeight:600}}>Olá, Evandro</span><Icon name="chD" size={18} color={C.gy}/></div>
         <div style={{display:"flex",padding:"16px 0 20px",borderBottom:`1px solid ${C.bd}`,marginBottom:20}}>
-          {[{n:"pix",l:"Fazer Pix"},{n:"card2",l:"Cartão virtual"},{n:"qr",l:"Boleto e QR"}].map((a,i)=>(
-            <div key={a.l} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,borderRight:i<2?`1px solid ${C.bd}`:"none"}}>
-              <Icon name={a.n} size={22} color={C.wh}/><span style={{color:C.wh,fontSize:11,textAlign:"center"}}>{a.l}</span>
+          {[{n:"pix",l:"Fazer Pix",f:openC6Pix},{n:"card2",l:"Cartão virtual",f:null},{n:"qr",l:"Boleto e QR",f:null}].map((a,i)=>(
+            <div key={a.l} onClick={a.f||undefined} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:8,borderRight:i<2?`1px solid ${C.bd}`:"none",cursor:a.f?"pointer":"default"}}>
+              <Icon name={a.n} size={22} color={a.f?C.bl:C.wh}/><span style={{color:a.f?C.bl:C.wh,fontSize:11,textAlign:"center"}}>{a.l}</span>
             </div>
           ))}
         </div>
@@ -1283,13 +1291,13 @@ function C6App(){
         </div>
       </div>
       <div style={{padding:"0 20px 20px"}}>
-        <div style={{display:"flex",alignItems:"center",gap:12,background:C.s1,border:`1px solid ${C.bd}`,borderRadius:14,padding:"13px 16px",cursor:"pointer"}} onClick={()=>{setPixOpen(true);setPixStep(1);}}>
+        <div style={{display:"flex",alignItems:"center",gap:12,background:C.s1,border:`1px solid ${C.bd}`,borderRadius:14,padding:"13px 16px",cursor:"pointer"}} onClick={openC6Pix}>
           <Icon name="pix" size={20} color={C.gd}/><span style={{flex:1,color:C.gd,fontSize:14}}>Cole uma chave pix copiada</span><Icon name="cam" size={20} color={C.bl}/>
         </div>
       </div>
       <div style={{display:"flex",justifyContent:"flex-end",padding:"0 20px 14px"}}><span style={{color:C.bl,fontSize:14,fontWeight:600,cursor:"pointer"}} onClick={()=>t_("Menu completo")}>Menu completo</span></div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,padding:"0 20px 22px"}}>
-        {[{n:"scan",l:"Pagar",f:()=>t_("Escaneie o código")},{n:"swap",l:"Transferir",f:()=>{setPixOpen(true);setPixStep(1);}},{n:"loan",l:"Empréstimo",f:()=>t_("Simule seu empréstimo")},{n:"phone",l:"Recarga\nde celular",f:()=>t_("Selecione a operadora")}].map(a=>(
+        {[{n:"scan",l:"Pagar",f:()=>t_("Escaneie o código")},{n:"swap",l:"Transferir",f:openC6Pix},{n:"loan",l:"Empréstimo",f:()=>t_("Simule seu empréstimo")},{n:"phone",l:"Recarga\nde celular",f:()=>t_("Selecione a operadora")}].map(a=>(
           <button key={a.l} onClick={a.f} style={{background:C.s2,border:`1px solid ${C.bd}`,borderRadius:14,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,padding:"14px 4px",fontFamily:"inherit"}}>
             <Icon name={a.n} size={22} color={C.wh}/><span style={{color:C.wh,fontSize:10,fontWeight:600,textAlign:"center",lineHeight:1.3,whiteSpace:"pre"}}>{a.l}</span>
           </button>
@@ -1474,7 +1482,7 @@ function C6App(){
         <div style={{color:C.gy,fontSize:12,marginTop:6}}>Total de {filtTxs.length} transações</div>
       </div>
       <div style={{display:"flex",padding:"0 20px 20px",borderBottom:`1px solid ${C.bd}`,flexShrink:0}}>
-        {[{n:"export",l:"Exportar",f:()=>t_("Exportar extrato")},{n:"doc",l:"Central de\nBoletos",f:()=>t_("Central de boletos")},{n:"pix",l:"Fazer Pix",f:()=>{setExtrato(false);setPixOpen(true);setPixStep(1);}}].map((a,i)=>(
+        {[{n:"export",l:"Exportar",f:()=>t_("Exportar extrato")},{n:"doc",l:"Central de\nBoletos",f:()=>t_("Central de boletos")},{n:"pix",l:"Fazer Pix",f:openC6Pix}].map((a,i)=>(
           <button key={a.l} onClick={a.f} style={{flex:1,background:"none",border:"none",display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"0 4px",borderRight:i<2?`1px solid ${C.bd}`:"none",fontFamily:"inherit"}}>
             <Icon name={a.n} size={22} color={C.gy}/><span style={{color:C.gy,fontSize:12,textAlign:"center",lineHeight:1.3,whiteSpace:"pre"}}>{a.l}</span>
           </button>
