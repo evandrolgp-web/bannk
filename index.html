@@ -1361,11 +1361,11 @@ function C6App(){
         <div style={{background:C.s1,borderRadius:16,border:`1px solid ${C.bd}`,padding:16,marginTop:12}}>
           <div style={{display:"flex",gap:8,marginBottom:16}}>
             <input style={inpSt({flex:1,fontSize:14})} placeholder="Digite ou cole uma chave Pix" />
-            <button style={{background:C.yw,border:"none",borderRadius:10,padding:"12px 16px",color:"#000",fontWeight:700,fontFamily:"inherit",cursor:"pointer",flexShrink:0}}><Icon name="chR" size={16} color="#000"/></button>
+            <button onClick={openC6Pix} style={{background:C.yw,border:"none",borderRadius:10,padding:"12px 16px",color:"#000",fontWeight:700,fontFamily:"inherit",cursor:"pointer",flexShrink:0}}><Icon name="chR" size={16} color="#000"/></button>
           </div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginBottom:16}}>
             {[{l:"Transferir\nPix",i:"swap"},{l:"Pagar\nQR Code",i:"qr"},{l:"Gerar\nQR Code",i:"qr"}].map(a=>(
-              <button key={a.l} style={{background:C.s2,border:`1px solid ${C.bd}`,borderRadius:10,padding:12,display:"flex",flexDirection:"column",alignItems:"center",gap:6,color:C.wh,fontSize:12,fontWeight:600,fontFamily:"inherit",cursor:"pointer"}}>
+              <button key={a.l} onClick={openC6Pix} style={{background:C.s2,border:`1px solid ${C.bd}`,borderRadius:10,padding:12,display:"flex",flexDirection:"column",alignItems:"center",gap:6,color:C.wh,fontSize:12,fontWeight:600,fontFamily:"inherit",cursor:"pointer"}}>
                 <Icon name={a.i} size={16} color={C.gy}/>
                 <span style={{whiteSpace:"pre-line"}}>{a.l}</span>
               </button>
@@ -1381,7 +1381,7 @@ function C6App(){
           </div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
             {[{l:"Pix\nAutomático",i:"pix"},{l:"Minhas\nchaves",i:"help"}].map(p=>(
-              <button key={p.l} style={{background:C.s2,border:`1px solid ${C.bd}`,borderRadius:10,padding:12,display:"flex",flexDirection:"column",alignItems:"center",gap:6,color:C.bl,fontSize:12,fontWeight:600,fontFamily:"inherit",cursor:"pointer"}}>
+              <button key={p.l} onClick={openC6Pix} style={{background:C.s2,border:`1px solid ${C.bd}`,borderRadius:10,padding:12,display:"flex",flexDirection:"column",alignItems:"center",gap:6,color:C.bl,fontSize:12,fontWeight:600,fontFamily:"inherit",cursor:"pointer"}}>
                 <Icon name={p.i} size={16} color={C.bl}/>
                 <span style={{whiteSpace:"pre-line"}}>{p.l}</span>
               </button>
@@ -1729,7 +1729,7 @@ function C6App(){
     );
   }
 
-  function MenuScreen(){return(<div style={{padding:"0 20px"}}><p style={{color:C.wh,fontSize:20,fontWeight:800,marginBottom:20}}>Menu</p>{[["Pix","pix"],["Transferir","swap"],["Pagar","scan"],["Empréstimo","loan"],["Recarga de celular","phone"]].map(([l,n])=>(<button key={l} onClick={()=>t_(l+" em breve")} style={{background:C.s1,border:`1px solid ${C.bd}`,borderRadius:14,padding:"15px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",width:"100%",marginBottom:8,fontFamily:"inherit"}}><div style={{display:"flex",alignItems:"center",gap:14}}><div style={{width:36,height:36,borderRadius:10,background:C.s2,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name={n} size={18} color={C.gy}/></div><span style={{color:C.wh,fontSize:14,fontWeight:600}}>{l}</span></div><Icon name="chR" size={18} color={C.gd}/></button>))}</div>);}
+  function MenuScreen(){return(<div style={{padding:"0 20px"}}><p style={{color:C.wh,fontSize:20,fontWeight:800,marginBottom:20}}>Menu</p>{[["Pix","pix"],["Transferir","swap"],["Pagar","scan"],["Empréstimo","loan"],["Recarga de celular","phone"]].map(([l,n])=>(<button key={l} onClick={l==="Pix"||l==="Transferir"?openC6Pix:()=>t_(l+" em breve")} style={{background:C.s1,border:`1px solid ${C.bd}`,borderRadius:14,padding:"15px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",width:"100%",marginBottom:8,fontFamily:"inherit"}}><div style={{display:"flex",alignItems:"center",gap:14}}><div style={{width:36,height:36,borderRadius:10,background:C.s2,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name={n} size={18} color={C.gy}/></div><span style={{color:C.wh,fontSize:14,fontWeight:600}}>{l}</span></div><Icon name="chR" size={18} color={C.gd}/></button>))}</div>);}
 
   function BottomNav(){const icons={home:"home",cards:"cards",invest:"chart",menu:"dots"};return(<div style={{position:"fixed",bottom:0,left:0,right:0,height:80,background:C.bg,borderTop:`1px solid ${C.bd}`,display:"flex",justifyContent:"space-around",alignItems:"flex-start",paddingTop:8,paddingBottom:12,zIndex:100}}>{[["Início","home"],["Cartões","cards"],["C6 Invest","invest"],["Menu","menu"]].map(([label,screenName])=>(<button key={screenName} onClick={()=>setNav(screenName)} style={{flex:1,background:"none",border:"none",display:"flex",flexDirection:"column",alignItems:"center",gap:4,paddingTop:4,paddingBottom:4,color:nav===screenName?C.bl:C.gy,cursor:"pointer",fontFamily:"inherit",fontSize:11,fontWeight:nav===screenName?700:500}}><Icon name={icons[screenName]} size={20} color={nav===screenName?C.bl:C.gy}/><span>{label}</span></button>))}</div>);}
 
