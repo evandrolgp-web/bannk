@@ -960,7 +960,12 @@ function C6App(){
   function go(s){ setScreen(s); }
 
   function openC6Pix(){
-    window.location.href="c6bank://pix";
+    const a=document.createElement("a");
+    a.href="c6bank://";
+    a.style.display="none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 
   function goBack(){
