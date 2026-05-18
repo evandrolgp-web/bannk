@@ -960,12 +960,7 @@ function C6App(){
   function go(s){ setScreen(s); }
 
   function openC6Pix(){
-    const scheme="c6bank://pix";
-    const store="https://apps.apple.com/br/app/c6-bank/id1383281965";
-    const timer=setTimeout(()=>{window.location.href=store;},1500);
-    const cancel=()=>{clearTimeout(timer);document.removeEventListener("visibilitychange",cancel);};
-    document.addEventListener("visibilitychange",cancel);
-    window.location.href=scheme;
+    window.location.href="c6bank://pix";
   }
 
   function goBack(){
