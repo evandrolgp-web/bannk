@@ -994,7 +994,7 @@ function C6App(){
   }
 
   function goBack(){
-    if(receipt){setTimeout(()=>{setReceipt(null);},340);return;}
+    if(receipt){setTimeout(()=>{setReceipt(null);setDetailsView(null);},340);return;}
     if(fSheet){setFSheet(false);return;}
     if(pixOpen){setPixOpen(false);return;}
     if(iModal){setIModal(false);return;}
@@ -1891,7 +1891,7 @@ function C6App(){
           </>
         )}
       </div>
-      {receipt&&(detailsView?<Receipt tx={receipt} onClose={()=>{setTimeout(()=>{setReceipt(null);setDetailsView(null);},340);}}/>:<TransactionDetails tx={receipt} onClose={()=>{setTimeout(()=>{setReceipt(null);},340);}} onOpenReceipt={()=>setDetailsView(true)}/>)}
+      {receipt&&(detailsView?<Receipt tx={receipt} onClose={()=>{setTimeout(()=>{setReceipt(null);setDetailsView(null);},340);}}/>:<TransactionDetails tx={receipt} onClose={()=>{setTimeout(()=>{setReceipt(null);setDetailsView(null);},340);}} onOpenReceipt={()=>setDetailsView(true)}/>)}
     </div>
   );
 }
