@@ -550,8 +550,8 @@ const BG=({children,onClick,style={}})=>(<button onClick={onClick} style={{backg
 
 function TransactionDetails({tx,onClose,onOpenReceipt}){
   const r=tx.receipt;
-  const isPixReceived=tx.type==="credit"&&(tx.cat?.includes("Pix")||tx.desc?.toLowerCase().includes("pix recebido"));
-  const isPixSent=tx.type==="debit"&&(tx.cat?.includes("Pix")||tx.desc?.toLowerCase().includes("enviado"));
+  const isPixReceived=tx.type==="credit"&&(tx.cat?.toLowerCase().includes("pix")||tx.desc?.toLowerCase().includes("pix recebido"));
+  const isPixSent=tx.type==="debit"&&(tx.cat?.toLowerCase().includes("pix")||tx.desc?.toLowerCase().includes("enviado"));
   const isBoleto=tx.cat?.includes("Boleto")||tx.cat?.includes("Pagamentos");
   const isCardDebit=tx.cat?.includes("Débito de Cartão")||tx.cat?.includes("Débito");
 
@@ -696,7 +696,7 @@ function TransactionDetails({tx,onClose,onOpenReceipt}){
 
 function Receipt({tx,onClose}){
   const r=tx.receipt;
-  const isPix=tx.cat?.includes("Pix")||tx.desc?.toLowerCase().includes("pix");
+  const isPix=tx.cat?.toLowerCase().includes("pix")||tx.desc?.toLowerCase().includes("pix");
 
   const Row=({label,value})=>(<div style={{marginBottom:14}}><div style={{color:"#888",fontSize:11,marginBottom:3,textTransform:"uppercase",letterSpacing:0.5,fontWeight:700}}>{label}</div><div style={{color:"#111",fontSize:13,fontWeight:600,wordBreak:"break-all"}}>{value}</div></div>);
 
@@ -994,7 +994,7 @@ function C6App(){
   }
 
   function goBack(){
-    if(receipt){setTimeout(()=>{setReceipt(null);},340);return;}
+    if(receipt){setTimeout(()=>{setReceipt(null);setDetailsView(null);},340);return;}
     if(fSheet){setFSheet(false);return;}
     if(pixOpen){setPixOpen(false);return;}
     if(iModal){setIModal(false);return;}
@@ -1891,7 +1891,7 @@ function C6App(){
           </>
         )}
       </div>
-      {receipt&&(detailsView?<Receipt tx={receipt} onClose={()=>{setTimeout(()=>{setReceipt(null);setDetailsView(null);},340);}}/>:<TransactionDetails tx={receipt} onClose={()=>{setTimeout(()=>{setReceipt(null);},340);}} onOpenReceipt={()=>setDetailsView(true)}/>)}
+      {receipt&&(detailsView?<Receipt tx={receipt} onClose={()=>{setTimeout(()=>{setReceipt(null);setDetailsView(null);},340);}}/>:<TransactionDetails tx={receipt} onClose={()=>{setTimeout(()=>{setReceipt(null);setDetailsView(null);},340);}} onOpenReceipt={()=>setDetailsView(true)}/>)}
     </div>
   );
 }
