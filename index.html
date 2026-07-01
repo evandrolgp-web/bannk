@@ -972,7 +972,7 @@ function C6App(){
   const[assistantOpen,setAssistantOpen]=useState(false);
   const[detailsView,setDetailsView]=useState(null);
   const[currentAccount,setCurrentAccount]=useState("cpf");
-  const BALANCE=currentAccount==="cnpj"?2268.72:0,ATOMOS=12480;
+  const BALANCE=currentAccount==="cnpj"?6931.12:0,ATOMOS=12480;
 
   const accountData={
     cpf:{name:"EVANDRO",surname:"LUCAS GONCALVES DE PINHO",cpfCnpj:"110.391.846-00",tipo:"CPF",cuenta:"21414479-8",chave:"10984411-b772-4757-9373-b9a752aada1e"},
@@ -1298,7 +1298,7 @@ function C6App(){
         </div>
         <div className="sa" style={{display:"flex",gap:12,overflowX:"auto",paddingBottom:2}}>
           {[
-            {label:"Real",icon:<span style={{fontSize:18}}>🇧🇷</span>,val:visible?(currentAccount==="cnpj"?"R$ 2.268,72":"R$ 0,00"):"R$ ••••••",action:()=>setExtrato(true),actionLabel:"Extrato",arrow:true},
+            {label:"Real",icon:<span style={{fontSize:18}}>🇧🇷</span>,val:visible?(currentAccount==="cnpj"?"R$ 6.931,12":"R$ 0,00"):"R$ ••••••",action:()=>setExtrato(true),actionLabel:"Extrato",arrow:true},
             {label:"C6 Átomos",icon:<div style={{width:22,height:22,borderRadius:11,background:"linear-gradient(135deg,#3b82f6,#1d4ed8)",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{color:C.wh,fontSize:11,fontWeight:600}}>A</span></div>,val:visible?"0,15 pts":"•••••• pts",action:()=>t_("Resgate seus pontos"),actionLabel:"Cashback",arrow:false},
             {label:"Dólar",icon:<span style={{fontSize:18}}>🇺🇸</span>,val:visible?"US$ 0,00":"US$ ••••••",action:()=>t_("Abrir conta"),actionLabel:"Abrir conta",arrow:false},
             {label:"Euro",icon:<span style={{fontSize:18}}>🇪🇺</span>,val:visible?"€ 0,00":"€ ••••••",action:()=>t_("Abrir conta"),actionLabel:"Abrir conta",arrow:false},
